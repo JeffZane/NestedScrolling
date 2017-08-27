@@ -94,7 +94,8 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
 
     @Override
     public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
-        return true;
+        Log.e("onStartNestedScroll", "called");
+        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
     @Override
@@ -113,12 +114,15 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
-        boolean hiddenTop = dy > 0 && getScrollY() < mTopViewHeight;
-        boolean showTop = dy < 0 && getScrollY() >= 0 && !ViewCompat.canScrollVertically(target, -1);
+        // target: RecyclerView
+        Log.e("onNestedPreScroll", "called, scrollY: " + getScrollY());
 
-        if (hiddenTop || showTop) {
+        boolean enableNestedScrollUp = dy > 0 && getScrollY() < mTopViewHeight; //上滑且顶部控件未完全隐藏
+        boolean enableNestedScrollDown = dy < 0 && getScrollY() > 0 && getScrollY() < mTopViewHeight; //上滑且顶部控件未完全隐藏
+        if (enableNestedScrollUp || enableNestedScrollDown) {
             scrollBy(0, dy);
             consumed[1] = dy;
+            Log.e("onNestedPreScroll", "consumed");
         }
     }
 
@@ -133,8 +137,8 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
     //返回值：自己是否消耗了fling。可见，要消耗只能全部消耗
     @Override
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
-        Log.e("onNestedPreFling", "called");
-        if (getScrollY() < mTopViewHeight) {
+        Log.e("onNestedPreFling", "called, scrollY: " + getScrollY());
+        if (getScrollY() > 0 && getScrollY() < mTopViewHeight) {
             fling((int) velocityY);
             return true;
         } else {
