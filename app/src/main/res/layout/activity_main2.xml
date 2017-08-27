@@ -1,14 +1,19 @@
 <com.zhy.stickynavlayout.demo2.StickyNavLayout2
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/sticky_nav_layout2"
+    >
 
     <RelativeLayout
         android:id="@id/id_stickynavlayout_topview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4400ff00">
+        android:background="#4400ff00"
+        >
 
         <TextView
             android:layout_width="match_parent"
@@ -16,18 +21,55 @@
             android:gravity="center"
             android:text="软件介绍"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
     </RelativeLayout>
 
-    <com.zhy.stickynavlayout.view.SimpleViewPagerIndicator
+    <!-- TabLayout START -->
+    <LinearLayout
         android:id="@id/id_stickynavlayout_indicator"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#ffffffff" />
+        android:background="@android:color/holo_blue_light"
+        android:orientation="horizontal"
+        >
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingLeft="8dp"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="#419bf9"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="#419bf9"
+            app:tabTextColor="@android:color/white"
+            tools:ignore="RtlHardcoded,RtlSymmetry"
+            />
+
+        <ImageView
+            android:id="@+id/iv_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:src="@drawable/ic_apps_black"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible"
+            />
+
+    </LinearLayout>
+    <!-- TabLayout END -->
 
     <android.support.v4.view.ViewPager
         android:id="@id/id_stickynavlayout_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        />
 
 </com.zhy.stickynavlayout.demo2.StickyNavLayout2>

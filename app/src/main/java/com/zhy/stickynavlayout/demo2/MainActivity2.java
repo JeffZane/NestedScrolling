@@ -1,23 +1,22 @@
 package com.zhy.stickynavlayout.demo2;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.zhy.stickynavlayout.R;
 import com.zhy.stickynavlayout.view.TabFragment;
-import com.zhy.stickynavlayout.view.SimpleViewPagerIndicator;
-
 
 public class MainActivity2 extends FragmentActivity {
-    private String[] mTitles = new String[]{"简介", "评价", "相关"};
-    private SimpleViewPagerIndicator mIndicator;
-    private ViewPager mViewPager;
-    private FragmentPagerAdapter mAdapter;
-    private TabFragment[] mFragments = new TabFragment[mTitles.length];
+    private String[] mTitles = new String[]{"Top Reads", "Video News"};
+
+    private StickyNavLayout2 mStickyNavLayout2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,54 +24,48 @@ public class MainActivity2 extends FragmentActivity {
         setContentView(R.layout.activity_main2);
 
         initViews();
-        initDatas();
-        initEvents();
     }
 
     private void initViews() {
-        mIndicator = (SimpleViewPagerIndicator) findViewById(R.id.id_stickynavlayout_indicator);
-        mViewPager = (ViewPager) findViewById(R.id.id_stickynavlayout_viewpager);
-    }
+        mStickyNavLayout2 = findViewById(R.id.sticky_nav_layout2);
+        TabLayout tabLayout = findViewById(R.id.tab_layout);
+        ImageView ivExpand = findViewById(R.id.iv_expand);
+        ViewPager viewPager = findViewById(R.id.id_stickynavlayout_viewpager);
 
-    private void initDatas() {
-        mIndicator.setTitles(mTitles);
-
-        for (int i = 0; i < mTitles.length; i++) {
-            mFragments[i] = TabFragment.newInstance(mTitles[i]);
-        }
-
-        mAdapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
+        ivExpand.setOnClickListener(new View.OnClickListener() {
             @Override
-            public int getCount() {
-                return mTitles.length;
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return mFragments[position];
-            }
-
-        };
-
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.setCurrentItem(0);
-    }
-
-    private void initEvents() {
-        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mIndicator.scroll(position, positionOffset);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onClick(View view) {
+                mStickyNavLayout2.scrollTo(0, -2000);
             }
         });
+
+        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private class PagerAdapter extends FragmentPagerAdapter {
+
+        PagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return TabFragment.newInstance(mTitles[i]);
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            if (position == 0) {
+                return "Top Reads";
+            } else {
+                return "Video News";
+            }
+        }
     }
 }
