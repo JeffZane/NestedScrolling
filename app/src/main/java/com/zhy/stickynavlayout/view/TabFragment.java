@@ -7,9 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.zhy.base.adapter.ViewHolder;
 import com.zhy.base.adapter.recyclerview.CommonAdapter;
+import com.zhy.base.adapter.recyclerview.OnItemClickListener;
 import com.zhy.stickynavlayout.R;
 
 import java.util.ArrayList;
@@ -37,12 +39,24 @@ public class TabFragment extends Fragment {
         for (int i = 0; i < 50; i++) {
             mDatas.add(mTitle + " -> " + i);
         }
-        mRecyclerView.setAdapter(new CommonAdapter<String>(getActivity(), R.layout.item, mDatas) {
+        CommonAdapter<String> commonAdapter = new CommonAdapter<String>(getActivity(), R.layout.item, mDatas) {
             @Override
             public void convert(ViewHolder holder, String o) {
                 holder.setText(R.id.id_info, o);
             }
+        };
+        commonAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(ViewGroup viewGroup, View view, Object o, int i) {
+                Toast.makeText(view.getContext(), "click " + i, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public boolean onItemLongClick(ViewGroup viewGroup, View view, Object o, int i) {
+                return false;
+            }
         });
+        mRecyclerView.setAdapter(commonAdapter);
 
         return view;
     }
