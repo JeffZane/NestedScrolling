@@ -75,8 +75,8 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
         if (y <= 0) {
             y = 0;
             changeState(STATE_OPENED);
-        } else if (y >= mTopViewHeight) {
-            y = mTopViewHeight;
+        } else if (y >= getScrollRange()) {
+            y = getScrollRange();
             changeState(STATE_CLOSED);
         } else {
             changeState(STATE_SCROLLED);
@@ -94,30 +94,34 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
     }
 
     public void showMenu() {
-        if (mState == STATE_CLOSED) { //or != OPEN ?
+        if (mState != STATE_OPENED) {
             animScroll(getScrollY(), 0);
         }
     }
 
     public void closeMenu() {
-        if (mState == STATE_OPENED) {
-            animScroll(getScrollY(), mTopViewHeight);
+        if (mState != STATE_CLOSED) {
+            animScroll(getScrollY(), getScrollRange());
         }
     }
 
     private void handleActionUp() {
-        if (getScrollY() >= SWIPE_SLOP) { //open
-            Log.e("handleActionUp", "---------- OPEN ----------");
-            animScroll(getScrollY(), mTopViewHeight);
+        if (mState != STATE_SCROLLED) {
+            return;
+        }
+
+        if (getScrollY() >= SWIPE_SLOP) { //close
+            Log.e("handleActionUp", "call closeMenu()");
+            closeMenu();
         } else {
-            Log.e("handleActionUp", "---------- CLOSE ----------");
-            animScroll(getScrollY(), 0);
+            Log.e("handleActionUp", "call showMenu()");
+            showMenu();
         }
     }
 
     private void animScroll(int start, int end) {
         ValueAnimator anim = ValueAnimator.ofInt(start, end);
-        int during = (int) (OPEN_MENU_DURING * (Math.abs(start - end) / (float) mTopViewHeight));
+        int during = (int) (OPEN_MENU_DURING * (Math.abs(start - end) / (float) getScrollRange()));
         Log.e("animScroll", "start: " + start + ", end: " + end + ", during: " + during);
         anim.setDuration(during);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -150,11 +154,17 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
         }
     }
 
+    private int getScrollRange() {
+        return mTopViewHeight;
+    }
+
+
 //实现NestedScrollParent接口-------------------------------------------------------------------------
 
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
+        Log.e("onInterceptTouchEvent", "" + ev.getAction());
         if (ev.getAction() == MotionEvent.ACTION_UP) {
             Log.e("onInterceptTouchEvent", "ACTION_UP ScrollY: " + getScrollY());
             handleActionUp();
@@ -188,8 +198,8 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
         // target: RecyclerView
         Log.e("onNestedPreScroll", "called, scrollY: " + getScrollY());
 
-        boolean enableNestedScrollUp = dy > 0 && getScrollY() < mTopViewHeight; //上滑且顶部控件未完全隐藏
-        boolean enableNestedScrollDown = dy < 0 && getScrollY() > 0 && getScrollY() < mTopViewHeight; //上滑且顶部控件未完全隐藏
+        boolean enableNestedScrollUp = dy > 0 && getScrollY() < getScrollRange(); //上滑且顶部控件未完全隐藏
+        boolean enableNestedScrollDown = dy < 0 && getScrollY() > 0 && getScrollY() < getScrollRange(); //上滑且顶部控件未完全隐藏
         if (enableNestedScrollUp || enableNestedScrollDown) {
             scrollBy(0, dy);
             consumed[1] = dy;
