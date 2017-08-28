@@ -1,75 +1,104 @@
-<com.zhy.stickynavlayout.demo2.StickyNavLayout2
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fl_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/sticky_nav_layout2"
     >
 
-    <RelativeLayout
-        android:id="@id/id_stickynavlayout_topview"
+    <!--<android.support.v7.widget.Toolbar-->
+    <!--android:id="@id/id_stickynavlayout_toolbar"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/home_page_toolbar_height"-->
+    <!--android:background="@android:color/holo_purple"-->
+    <!--&gt;-->
+
+    <TextView
+        android:id="@id/id_stickynavlayout_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#4400ff00"
-        >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="256dp"
-            android:gravity="center"
-            android:text="Menus"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            />
-    </RelativeLayout>
-
-    <!-- TabLayout START -->
-    <LinearLayout
-        android:id="@id/id_stickynavlayout_indicator"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@android:color/holo_blue_light"
-        android:orientation="horizontal"
-        >
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:clipChildren="false"
-            android:clipToPadding="false"
-            android:paddingLeft="8dp"
-            app:tabBackground="@android:color/transparent"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="#419bf9"
-            app:tabMode="scrollable"
-            app:tabSelectedTextColor="#419bf9"
-            app:tabTextColor="@android:color/white"
-            tools:ignore="RtlHardcoded,RtlSymmetry"
-            />
-
-        <ImageView
-            android:id="@+id/iv_expand"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:src="@drawable/ic_apps_black"
-            tools:ignore="ContentDescription"
-            tools:visibility="visible"
-            />
-
-    </LinearLayout>
-    <!-- TabLayout END -->
-
-    <android.support.v4.view.ViewPager
-        android:id="@id/id_stickynavlayout_viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/home_page_toolbar_height"
+        android:background="@android:color/holo_purple"
+        android:gravity="center"
+        android:text="Nestia"
+        android:textColor="#333333"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText"
         />
 
-</com.zhy.stickynavlayout.demo2.StickyNavLayout2>
+    <!--</android.support.v7.widget.Toolbar>-->
+
+    <com.zhy.stickynavlayout.demo2.StickyNavLayout2
+        android:id="@+id/sticky_nav_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:id="@id/id_stickynavlayout_topview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#0f0"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:gravity="center"
+                android:text="Menus"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                />
+        </RelativeLayout>
+
+        <!-- TabLayout START -->
+        <LinearLayout
+            android:id="@id/id_stickynavlayout_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@android:color/holo_blue_light"
+            android:orientation="horizontal"
+            >
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:paddingLeft="8dp"
+                app:tabBackground="@android:color/transparent"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="#419bf9"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="#419bf9"
+                app:tabTextColor="@android:color/white"
+                tools:ignore="RtlHardcoded,RtlSymmetry"
+                />
+
+            <ImageView
+                android:id="@+id/iv_expand"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:src="@drawable/ic_apps_black"
+                tools:ignore="ContentDescription"
+                tools:visibility="visible"
+                />
+
+        </LinearLayout>
+        <!-- TabLayout END -->
+
+        <android.support.v4.view.ViewPager
+            android:id="@id/id_stickynavlayout_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </com.zhy.stickynavlayout.demo2.StickyNavLayout2>
+
+</FrameLayout>

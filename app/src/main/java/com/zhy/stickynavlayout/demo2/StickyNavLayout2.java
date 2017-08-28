@@ -34,6 +34,7 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
     private ViewPager mViewPager;
     private int mTopViewHeight;
     private OverScroller mScroller;
+    private ScrollListener mScrollListener;
 
     public StickyNavLayout2(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -42,6 +43,13 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
         mScroller = new OverScroller(context);
     }
 
+    public interface ScrollListener {
+        void onScroll(int scrollY);
+    }
+
+    public void setScrollListener(ScrollListener listener) {
+        this.mScrollListener = listener;
+    }
 
     @Override
     protected void onFinishInflate() {
@@ -68,6 +76,13 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
     }
 
     @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+
+        offsetTopAndBottom(getToolbarHeight());
+    }
+
+    @Override
     public void scrollTo(int x, int y) {
         Log.e("scrollTo", "y: " + y);
 
@@ -76,8 +91,16 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
             y = 0;
             changeState(STATE_OPENED);
         } else if (y >= getScrollRange()) {
+            if (mScrollListener != null) {
+                mScrollListener.onScroll(getToolbarHeight());
+            }
+
             y = getScrollRange();
             changeState(STATE_CLOSED);
+        } else if (y >= mTopViewHeight) {
+            if (mScrollListener != null) {
+                mScrollListener.onScroll(getScrollY() - mTopViewHeight);
+            }
         } else {
             changeState(STATE_SCROLLED);
         }
@@ -155,9 +178,12 @@ public class StickyNavLayout2 extends LinearLayout implements NestedScrollingPar
     }
 
     private int getScrollRange() {
-        return mTopViewHeight;
+        return mTopViewHeight + getToolbarHeight();
     }
 
+    private int getToolbarHeight() {
+        return getResources().getDimensionPixelOffset(R.dimen.home_page_toolbar_height);
+    }
 
 //实现NestedScrollParent接口-------------------------------------------------------------------------
 
