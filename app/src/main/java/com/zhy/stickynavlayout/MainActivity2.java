@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,22 +35,6 @@ public class MainActivity2 extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 mStickyNavLayout2.showMenu();
-            }
-        });
-
-        mStickyNavLayout2.setScrollListener(new StickyNavLayout2.ScrollListener() {
-            @Override
-            public void onScroll(int scrollY) {
-                Log.d("yzg222", "onScroll: " + scrollY);
-//                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mToolbar.getLayoutParams();
-//                layoutParams.topMargin = -scrollY;
-//                mToolbar.setLayoutParams(layoutParams);
-
-//                mToolbar.scrollTo(0, scrollY);
-//
-//                ViewCompat.offsetTopAndBottom(mToolbar, -scrollY);
-
-                mToolbar.setTranslationY(-scrollY);
             }
         });
 
