@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.v4.view.NestedScrollingParent;
 import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -31,7 +30,7 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     private View mContent;
     private View mToolbar;
     private View mNav;
-    private ViewPager mViewPager;
+    private ScrollableViewPager mViewPager;
     private int mTopViewHeight;
     private OverScroller mScroller;
 
@@ -208,6 +207,7 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     @Override
     public void onStopNestedScroll(View target) {
         Log.e("onStopNestedScroll", "called");
+        mViewPager.setScrollable(true);
         parentHelper.onStopNestedScroll(target);
     }
 
@@ -223,6 +223,8 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
         boolean enableNestedScrollUp = dy > 0 && getContentScrollY() < getScrollRange(); //上滑且顶部控件未完全隐藏
         boolean enableNestedScrollDown = dy < 0 && getContentScrollY() > 0 && getContentScrollY() < getScrollRange(); //上滑且顶部控件未完全隐藏
         if (enableNestedScrollUp || enableNestedScrollDown) {
+            mViewPager.setScrollable(false);
+
             scrollContentTo(dy + getContentScrollY());
             consumed[1] = dy;
             Log.e("onNestedPreScroll", "consumed");
