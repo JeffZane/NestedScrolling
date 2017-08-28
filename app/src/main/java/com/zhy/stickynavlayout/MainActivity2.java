@@ -1,4 +1,4 @@
-package com.zhy.stickynavlayout.demo2;
+package com.zhy.stickynavlayout;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -6,22 +6,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.zhy.stickynavlayout.R;
-import com.zhy.stickynavlayout.view.TabFragment;
-
 public class MainActivity2 extends FragmentActivity {
-    private String[] mTitles = new String[]{"Top Reads", "Video News"};
 
-    private FrameLayout mRootLayout;
     private StickyNavLayout2 mStickyNavLayout2;
     private TextView mToolbar;
 
@@ -34,7 +26,6 @@ public class MainActivity2 extends FragmentActivity {
     }
 
     private void initViews() {
-        mRootLayout = findViewById(R.id.fl_root);
         mStickyNavLayout2 = findViewById(R.id.sticky_nav_layout2);
         mToolbar = findViewById(R.id.id_stickynavlayout_toolbar);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
@@ -76,7 +67,7 @@ public class MainActivity2 extends FragmentActivity {
 
         @Override
         public Fragment getItem(int i) {
-            return TabFragment.newInstance(mTitles[i]);
+            return TestFragment.newInstance(i);
         }
 
         @Override
