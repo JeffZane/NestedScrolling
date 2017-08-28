@@ -184,13 +184,13 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
 
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        Log.e("onInterceptTouchEvent", "" + ev.getAction());
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.e("TouchEvent", "dispatchTouchEvent " + ev.getAction());
         if (ev.getAction() == MotionEvent.ACTION_UP) {
             Log.e("onInterceptTouchEvent", "ACTION_UP ScrollY: " + getContentScrollY());
             handleActionUp();
         }
-        return super.onInterceptTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
     @Override
