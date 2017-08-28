@@ -18,6 +18,7 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
 
     private static final int SWIPE_SLOP = 80;
     private static final int OPEN_MENU_DURING = 300;
+    private static final int OPEN_MENU_MIN_DURING = 100;
 
     private static final int STATE_OPENED = 1;
     private static final int STATE_CLOSED = 2;
@@ -140,8 +141,8 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     private void animScroll(int start, int end) {
         ValueAnimator anim = ValueAnimator.ofInt(start, end);
         int during = (int) (OPEN_MENU_DURING * (Math.abs(start - end) / (float) getScrollRange()));
-        Log.e("animScroll", "start: " + start + ", end: " + end + ", during: " + during);
-        anim.setDuration(during);
+        anim.setDuration(Math.max(OPEN_MENU_MIN_DURING, during));
+        Log.e("animScroll", "start: " + start + ", end: " + end + ", during: " + Math.max(OPEN_MENU_MIN_DURING, during));
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -185,7 +186,7 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.e("TouchEvent", "dispatchTouchEvent " + ev.getAction());
+//        Log.e("TouchEvent", "dispatchTouchEvent " + ev.getAction());
         if (ev.getAction() == MotionEvent.ACTION_UP) {
             Log.e("onInterceptTouchEvent", "ACTION_UP ScrollY: " + getContentScrollY());
             handleActionUp();
