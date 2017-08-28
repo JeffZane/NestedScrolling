@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class MainActivity2 extends FragmentActivity {
 
-    private StickyNavLayout2 mStickyNavLayout2;
+    private HomePageRootLayout mHomePageRootLayout;
     private TextView mToolbar;
 
     @Override
@@ -25,16 +25,16 @@ public class MainActivity2 extends FragmentActivity {
     }
 
     private void initViews() {
-        mStickyNavLayout2 = findViewById(R.id.sticky_nav_layout2);
-        mToolbar = findViewById(R.id.id_stickynavlayout_toolbar);
+        mHomePageRootLayout = findViewById(R.id.home_root_layout);
+        mToolbar = findViewById(R.id.home_page_toolbar);
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ImageView ivExpand = findViewById(R.id.iv_expand);
-        ViewPager viewPager = findViewById(R.id.id_stickynavlayout_viewpager);
+        ViewPager viewPager = findViewById(R.id.home_page_view_pager);
 
         ivExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStickyNavLayout2.showMenu();
+                mHomePageRootLayout.showMenu();
             }
         });
 

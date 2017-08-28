@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="id_stickynavlayout_toolbar" type="id"/>
-    <item name="id_stickynavlayout_topview" type="id"/>
-    <item name="id_stickynavlayout_viewpager" type="id"/>
-    <item name="id_stickynavlayout_indicator" type="id"/>
-    <item name="id_stickynavlayout_innerscrollview" type="id"/>
+    <item name="home_page_toolbar" type="id"/>
+    <item name="home_page_content_layout" type="id"/>
+    <item name="home_page_tab_layout" type="id"/>
+    <item name="home_page_menu_layout" type="id"/>
+    <item name="home_page_view_pager" type="id"/>
 
 </resources>

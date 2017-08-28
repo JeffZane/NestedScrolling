@@ -13,8 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.OverScroller;
 
-
-public class StickyNavLayout2 extends FrameLayout implements NestedScrollingParent {
+public class HomePageRootLayout extends FrameLayout implements NestedScrollingParent {
 
     private static final int SWIPE_SLOP = 80;
     private static final int OPEN_MENU_DURING = 300;
@@ -27,15 +26,15 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     private int mState;
 
     private NestedScrollingParentHelper parentHelper = new NestedScrollingParentHelper(this);
-    private View mTop;
-    private View mContent;
+    private View mMenuLayout;
+    private View mContentLayout;
     private View mToolbar;
-    private View mNav;
+    private View mTabLayout;
     private ScrollableViewPager mViewPager;
-    private int mTopViewHeight;
+    private int mMenuLayoutHeight;
     private OverScroller mScroller;
 
-    public StickyNavLayout2(Context context, AttributeSet attrs) {
+    public HomePageRootLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         mScroller = new OverScroller(context);
@@ -45,12 +44,12 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        mToolbar = findViewById(R.id.id_stickynavlayout_toolbar);
+        mToolbar = findViewById(R.id.home_page_toolbar);
 
-        mContent = findViewById(R.id.ll_content);
-        mTop = findViewById(R.id.id_stickynavlayout_topview);
-        mNav = findViewById(R.id.id_stickynavlayout_indicator);
-        mViewPager = findViewById(R.id.id_stickynavlayout_viewpager);
+        mContentLayout = findViewById(R.id.home_page_content_layout);
+        mMenuLayout = findViewById(R.id.home_page_menu_layout);
+        mTabLayout = findViewById(R.id.home_page_tab_layout);
+        mViewPager = findViewById(R.id.home_page_view_pager);
 
         mState = STATE_OPENED;
     }
@@ -59,12 +58,12 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        mTopViewHeight = mTop.getMeasuredHeight();
+        mMenuLayoutHeight = mMenuLayout.getMeasuredHeight();
 
         //上面测量的结果是viewPager的高度只能占满父控件的剩余空间
         //重新设置viewPager的高度
         ViewGroup.LayoutParams layoutParams = mViewPager.getLayoutParams();
-        layoutParams.height = getMeasuredHeight() - mNav.getMeasuredHeight();
+        layoutParams.height = getMeasuredHeight() - mTabLayout.getMeasuredHeight();
         mViewPager.setLayoutParams(layoutParams);
     }
 
@@ -88,16 +87,16 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
             y = getScrollRange();
             changeState(STATE_CLOSED);
         } else {
-            if (y > mTopViewHeight) {
-                moveToolbar(getContentScrollY() - mTopViewHeight);
-            } else if (y <= mTopViewHeight) {
+            if (y > mMenuLayoutHeight) {
+                moveToolbar(getContentScrollY() - mMenuLayoutHeight);
+            } else if (y <= mMenuLayoutHeight) {
                 moveToolbar(0);
             }
 
             changeState(STATE_SCROLLED);
         }
 
-        mContent.scrollTo(0, y);
+        mContentLayout.scrollTo(0, y);
     }
 
     private void moveToolbar(int y) {
@@ -105,7 +104,7 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     }
 
     public int getContentScrollY() {
-        return mContent.getScrollY();
+        return mContentLayout.getScrollY();
     }
 
     @Override
@@ -178,7 +177,7 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
     }
 
     private int getScrollRange() {
-        return mTopViewHeight + getToolbarHeight();
+        return mMenuLayoutHeight + getToolbarHeight();
     }
 
     private int getToolbarHeight() {
