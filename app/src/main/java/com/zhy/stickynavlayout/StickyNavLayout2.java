@@ -81,23 +81,27 @@ public class StickyNavLayout2 extends FrameLayout implements NestedScrollingPare
             y = 0;
             changeState(STATE_OPENED);
 
-            mToolbar.scrollTo(0, 0);
+            moveToolbar(0);
         } else if (y >= getScrollRange()) {
-            mToolbar.scrollTo(0, getToolbarHeight());
+            moveToolbar(getToolbarHeight());
 
             y = getScrollRange();
             changeState(STATE_CLOSED);
         } else {
             if (y > mTopViewHeight) {
-                mToolbar.scrollTo(0, getContentScrollY() - mTopViewHeight);
+                moveToolbar(getContentScrollY() - mTopViewHeight);
             } else if (y <= mTopViewHeight) {
-                mToolbar.scrollTo(0, 0);
+                moveToolbar(0);
             }
 
             changeState(STATE_SCROLLED);
         }
 
         mContent.scrollTo(0, y);
+    }
+
+    private void moveToolbar(int y) {
+        mToolbar.scrollTo(0, y);
     }
 
     public int getContentScrollY() {
