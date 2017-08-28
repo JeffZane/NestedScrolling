@@ -40,11 +40,19 @@ public class HomePageRootLayout extends FrameLayout implements NestedScrollingPa
         mScroller = new OverScroller(context);
     }
 
+    public void showToolbar() {
+        if (mToolbar == null) {
+            mToolbar = View.inflate(getContext(), R.layout.layout_toolbar, null);
+        }
+
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        addView(mToolbar, layoutParams);
+    }
+
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-
-        mToolbar = findViewById(R.id.home_page_toolbar);
 
         mContentLayout = findViewById(R.id.home_page_content_layout);
         mMenuLayout = findViewById(R.id.home_page_menu_layout);
@@ -75,32 +83,31 @@ public class HomePageRootLayout extends FrameLayout implements NestedScrollingPa
     public void scrollContentTo(int y) {
         Log.e("scrollContentTo", "y: " + y);
 
-        //限制滚动范围
+        int toolbarOffset = 0;
         if (y <= 0) {
             y = 0;
             changeState(STATE_OPENED);
 
-            moveToolbar(0);
+            toolbarOffset = 0;
         } else if (y >= getScrollRange()) {
-            moveToolbar(getToolbarHeight());
+            toolbarOffset = getToolbarHeight();
 
             y = getScrollRange();
             changeState(STATE_CLOSED);
         } else {
             if (y > mMenuLayoutHeight) {
-                moveToolbar(getContentScrollY() - mMenuLayoutHeight);
+                toolbarOffset = getContentScrollY() - mMenuLayoutHeight;
             } else if (y <= mMenuLayoutHeight) {
-                moveToolbar(0);
+                toolbarOffset = 0;
             }
 
             changeState(STATE_SCROLLED);
         }
 
         mContentLayout.scrollTo(0, y);
-    }
-
-    private void moveToolbar(int y) {
-        mToolbar.scrollTo(0, y);
+        if (mTabLayout != null) {
+            mToolbar.scrollTo(0, toolbarOffset);
+        }
     }
 
     public int getContentScrollY() {

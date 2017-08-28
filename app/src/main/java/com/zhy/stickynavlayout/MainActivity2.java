@@ -14,7 +14,6 @@ import android.widget.TextView;
 public class MainActivity2 extends FragmentActivity {
 
     private HomePageRootLayout mHomePageRootLayout;
-    private TextView mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,8 @@ public class MainActivity2 extends FragmentActivity {
 
     private void initViews() {
         mHomePageRootLayout = findViewById(R.id.home_root_layout);
-        mToolbar = findViewById(R.id.home_page_toolbar);
+        mHomePageRootLayout.showToolbar();
+
         TabLayout tabLayout = findViewById(R.id.tab_layout);
         ImageView ivExpand = findViewById(R.id.iv_expand);
         ViewPager viewPager = findViewById(R.id.home_page_view_pager);
