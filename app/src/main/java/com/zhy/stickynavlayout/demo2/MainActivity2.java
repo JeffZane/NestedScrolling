@@ -35,7 +35,7 @@ public class MainActivity2 extends FragmentActivity {
         ivExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mStickyNavLayout2.scrollTo(0, -2000);
+                mStickyNavLayout2.showMenu();
             }
         });
 
